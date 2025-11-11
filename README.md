@@ -17,17 +17,35 @@ A production-ready starter template for building full-stack applications with Ne
 
 ### Step 1: Clone and Setup
 
-```bash
-# Clone this repository
-git clone https://github.com/thechristofferweiss/nextjs-supabase-vercel-starter.git
-cd nextjs-supabase-vercel-starter
+**a.** Clone this repository:
+   ```bash
+   git clone https://github.com/thechristofferweiss/nextjs-supabase-vercel-starter.git
+   cd nextjs-supabase-vercel-starter
+   ```
 
-# Install dependencies
-npm install
+**b.** Set up your own Git repository (the cloned repo is connected to the starter template's repository):
+   
+   **Important:** Create a new GitHub repository for your project first, then:
+   ```bash
+   # Remove the existing remote (connected to starter template)
+   git remote remove origin
+   
+   # Add your new repository as remote (replace with your repository URL)
+   git remote add origin https://github.com/yourusername/your-project-name.git
+   
+   # Verify the remote is set correctly
+   git remote -v
+   ```
 
-# Copy environment template
-cp .env.example .env.local
-```
+**c.** Install dependencies:
+   ```bash
+   npm install
+   ```
+
+**d.** Copy environment template:
+   ```bash
+   cp .env.example .env.local
+   ```
 
 ### Step 2: Set Up Cloud Supabase Connection (Before Development)
 
@@ -76,11 +94,11 @@ Set up your cloud Supabase project first so it's ready for deployment. We'll dev
 
 Set up Vercel now so deployment is ready when you need it.
 
-**a.** Push your code to GitHub:
+**a.** Push your code to GitHub (make sure you've set up your own repository in Step 1b):
    ```bash
    git add .
    git commit -m "Initial setup"
-   git push origin main
+   git push -u origin main
    ```
 
 **b.** Import your repository in [Vercel](https://vercel.com)
