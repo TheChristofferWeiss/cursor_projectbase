@@ -17,13 +17,25 @@ A production-ready starter template for building full-stack applications with Ne
 
 ### Step 1: Clone and Setup
 
-**a.** Clone this repository:
+**a.** Create your project directory and navigate to it:
    ```bash
-   git clone https://github.com/thechristofferweiss/nextjs-supabase-vercel-starter.git
-   cd nextjs-supabase-vercel-starter
+   # Create your project directory (replace 'your-project-name' with your actual project name)
+   mkdir your-project-name
+   
+   # Navigate into the directory
+   cd your-project-name
    ```
+   
+   **In Cursor:** You can also create the folder using File → New Folder, then open it in Cursor.
 
-**b.** Set up your own Git repository (the cloned repo is connected to the starter template's repository):
+**b.** Clone this repository directly into your project folder:
+   ```bash
+   # Clone directly into current directory (note the . at the end)
+   git clone https://github.com/thechristofferweiss/nextjs-supabase-vercel-starter.git .
+   ```
+   The `.` tells git to clone into the current directory instead of creating a nested subfolder.
+
+**c.** Set up your own Git repository (the cloned repo is connected to the starter template's repository):
    
    **Important:** Create a new GitHub repository for your project first, then:
    ```bash
@@ -37,12 +49,12 @@ A production-ready starter template for building full-stack applications with Ne
    git remote -v
    ```
 
-**c.** Install dependencies:
+**d.** Install dependencies:
    ```bash
    npm install
    ```
 
-**d.** Copy environment template:
+**e.** Copy environment template:
    ```bash
    cp .env.example .env.local
    ```
