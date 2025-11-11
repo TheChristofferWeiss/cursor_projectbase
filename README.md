@@ -137,10 +137,22 @@ Set up Vercel now so deployment is ready when you need it.
    - Import your GitHub repository (e.g., `TheChristofferWeiss/stagetimer`)
    - Vercel will auto-detect Next.js settings
 
-**e.** Add environment variables in Vercel project settings (use your **cloud** Supabase credentials):
-   - `NEXT_PUBLIC_SUPABASE_URL` (your cloud Supabase URL)
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (your cloud Supabase anon key)
-   - `SUPABASE_SERVICE_ROLE_KEY` (your cloud Supabase service role key)
+**e.** Add environment variables in Vercel project settings:
+   
+   **Important:** Use your **cloud** Supabase credentials (NOT the local ones from `.env.local`). Your `.env.local` file has local development credentials (`http://127.0.0.1:54321`), but Vercel needs production/cloud credentials.
+   
+   - Go to Vercel project settings → **Environment Variables**
+   - Get the values from your Supabase Dashboard:
+     - **URL:** Go to **Settings → Data API** and copy the **Project URL**
+     - **Keys:** Go to **Settings → API Keys** and copy:
+       - `anon` `public` key (for `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+       - `service_role` `secret` key (for `SUPABASE_SERVICE_ROLE_KEY`)
+   - Add these variables in Vercel:
+     - `NEXT_PUBLIC_SUPABASE_URL` - Your cloud Supabase project URL (from Data API)
+     - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your cloud Supabase anon/public key (from API Keys)
+     - `SUPABASE_SERVICE_ROLE_KEY` - Your cloud Supabase service role key (from API Keys)
+   
+   **Tip:** You can use Vercel's "Import .env" button if you create a `.env` file with your cloud credentials, or add them manually.
 
 **f.** Configure Supabase redirect URLs:
    - Go to Supabase Dashboard → **Authentication → URL Configuration**
@@ -152,6 +164,14 @@ Set up Vercel now so deployment is ready when you need it.
      - `http://localhost:3000/**`
 
 **✅ Vercel is now configured!** When you push to GitHub, Vercel will automatically deploy.
+
+**Note:** During deployment, you may see yellow or red lines in the Vercel build logs. Don't be alarmed - these are often warnings or informational messages. The deployment will complete successfully as long as the build finishes.
+
+**What to expect:** Once deployed, your site will show a landing page with:
+- Title: "Next.js + Supabase + Vercel Starter"
+- A "Get Started" card with Sign In and Sign Up buttons
+- A Features section listing the key features
+- Authentication pages for sign in and sign up
 
 ---
 
