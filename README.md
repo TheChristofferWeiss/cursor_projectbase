@@ -89,6 +89,11 @@ Set up your cloud Supabase project first so it's ready for deployment. We'll dev
    # Find your Project ID in: Supabase Dashboard → Settings → General → Project ID
    supabase link --project-ref <project-id>
    ```
+   
+   **Important:** After linking, you may see a warning about database version mismatch. If so, check your cloud PostgreSQL version:
+   - Go to Supabase Dashboard → **Settings → Database**
+   - Note the PostgreSQL version (e.g., 17.x)
+   - Update `supabase/config.toml`: change `major_version = 15` to match your cloud version (e.g., `major_version = 17`)
 
 **g.** Push migrations to your cloud Supabase project:
    ```bash
@@ -106,21 +111,34 @@ Set up your cloud Supabase project first so it's ready for deployment. We'll dev
 
 Set up Vercel now so deployment is ready when you need it.
 
-**a.** Push your code to GitHub (make sure you've set up your own repository in Step 1b):
+**a.** Verify your Git repository is set up correctly:
+   ```bash
+   # Check that your remote is pointing to your repository (not the starter template)
+   git remote -v
+   ```
+   You should see your repository URL, not the starter template URL. If you see the starter template URL, go back to Step 1c.
+
+**b.** Ensure your GitHub repository exists:
+   - Go to [GitHub](https://github.com) and verify your repository exists
+   - If it doesn't exist, create it now (don't initialize with README, .gitignore, or license)
+
+**c.** Push your code to GitHub:
    ```bash
    git add .
    git commit -m "Initial setup"
    git push -u origin main
    ```
+   
+   **If push fails:** Make sure your GitHub repository exists and you have push access. If you get "repository not found", verify the repository URL in Step 1c.
 
-**b.** Import your repository in [Vercel](https://vercel.com)
+**d.** Import your repository in [Vercel](https://vercel.com)
 
-**c.** Add environment variables in Vercel project settings (use your **cloud** Supabase credentials):
+**e.** Add environment variables in Vercel project settings (use your **cloud** Supabase credentials):
    - `NEXT_PUBLIC_SUPABASE_URL` (your cloud Supabase URL)
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (your cloud Supabase anon key)
    - `SUPABASE_SERVICE_ROLE_KEY` (your cloud Supabase service role key)
 
-**d.** Configure Supabase redirect URLs:
+**f.** Configure Supabase redirect URLs:
    - Go to Supabase Dashboard → **Authentication → URL Configuration**
    - Set **Site URL** to your Vercel URL: `https://your-app.vercel.app`
    - Add **Redirect URLs**:
@@ -143,6 +161,18 @@ Now set up local Supabase - this is where you'll develop and test your applicati
 # Start local Supabase (runs PostgreSQL, Auth, Storage, etc. in Docker)
 supabase start
 ```
+
+**If you get a port conflict error:**
+   ```bash
+   # Check for running Supabase instances
+   docker ps --filter "name=supabase"
+   
+   # Stop conflicting project (replace <project-id> with the conflicting project ID)
+   supabase stop --project-id <project-id>
+   
+   # Then try starting again
+   supabase start
+   ```
 
 After starting, Supabase will display your local credentials. Update your `.env.local` with **local** credentials:
 
