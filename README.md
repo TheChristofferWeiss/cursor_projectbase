@@ -2,7 +2,7 @@
 
 A production-ready starter template for building full-stack applications with Next.js, Supabase, and Vercel. 
 
-**Workflow:** Set up cloud infrastructure (Supabase + Vercel) first so deployment is ready, then develop locally. When your code is ready, deploy with confidence!
+**Workflow:** Set up cloud Supabase connection first (so deployment is ready), then develop locally using local Supabase. When your code is ready, deploy to production with confidence!
 
 ## 🚀 Quick Start
 
@@ -12,14 +12,10 @@ A production-ready starter template for building full-stack applications with Ne
 - [Docker](https://www.docker.com/get-started) and Docker Compose
 - [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started)
 - A Supabase account ([sign up free](https://supabase.com))
-- A Vercel account ([sign up free](https://vercel.com))
+- A Vercel account ([sign up free](https://vercel.com)) - for deployment
 - Git
 
-### Phase 1: Set Up Cloud Infrastructure (Ready for Deployment)
-
-Set up your cloud Supabase and Vercel projects first so deployment is ready when you need it.
-
-#### Step 1: Clone and Setup
+### Step 1: Clone and Setup
 
 ```bash
 # Clone this repository
@@ -33,13 +29,15 @@ npm install
 cp .env.example .env.local
 ```
 
-#### Step 2: Set Up Cloud Supabase
+### Step 2: Set Up Cloud Supabase Connection (Before Development)
 
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to **Settings → API** and copy your project URL and anon key
-3. Link your local project to cloud Supabase:
+Set up your cloud Supabase project first so it's ready for deployment. We'll develop locally, but this ensures your cloud database is configured.
 
-**Important:** Run these commands **one at a time** in your terminal. Do not copy-paste them all at once.
+**a.** Create a new project at [supabase.com](https://supabase.com)
+
+**b.** Go to **Settings → API** and copy your project URL and anon key
+
+**c.** Run these commands **one at a time** in your terminal. Do not copy-paste them all at once:
 
 ```bash
 # Install Supabase CLI (if not already installed)
@@ -56,37 +54,34 @@ supabase init
 # Find your Project ID in: Supabase Dashboard → Settings → General → Project ID
 supabase link --project-ref <project-id>
 
-# Push migrations to cloud Supabase
+# Push migrations to your cloud Supabase project
 supabase db push
 
 # Generate TypeScript types from cloud database
 supabase gen types typescript --project-id <project-id> > src/lib/database.types.ts
 ```
 
-4. Update `.env.local` with your cloud Supabase credentials:
+**✅ Cloud Supabase connection is now set up and ready for deployment!**
 
-```env
-NEXT_PUBLIC_SUPABASE_URL=your-cloud-project-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-cloud-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-cloud-service-role-key
-```
+### Step 3: Set Up Vercel (Ready for Deployment)
 
-#### Step 3: Set Up Vercel (Ready for Deployment)
+Set up Vercel now so deployment is ready when you need it.
 
-1. Push your code to GitHub:
+**a.** Push your code to GitHub:
    ```bash
    git add .
    git commit -m "Initial setup"
    git push origin main
    ```
 
-2. Import your repository in [Vercel](https://vercel.com)
-3. Add environment variables in Vercel project settings:
+**b.** Import your repository in [Vercel](https://vercel.com)
+
+**c.** Add environment variables in Vercel project settings (use your **cloud** Supabase credentials):
    - `NEXT_PUBLIC_SUPABASE_URL` (your cloud Supabase URL)
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (your cloud Supabase anon key)
    - `SUPABASE_SERVICE_ROLE_KEY` (your cloud Supabase service role key)
 
-4. Configure Supabase redirect URLs:
+**d.** Configure Supabase redirect URLs:
    - Go to Supabase Dashboard → **Authentication → URL Configuration**
    - Set **Site URL** to your Vercel URL: `https://your-app.vercel.app`
    - Add **Redirect URLs**:
@@ -95,15 +90,13 @@ SUPABASE_SERVICE_ROLE_KEY=your-cloud-service-role-key
      - `http://localhost:3000/auth/callback` (for local development)
      - `http://localhost:3000/**`
 
-**✅ Cloud infrastructure is now set up and ready for deployment!**
+**✅ Vercel is now configured!** When you push to GitHub, Vercel will automatically deploy.
 
 ---
 
-### Phase 2: Develop Locally
+### Step 4: Set Up Local Supabase for Development
 
-Now that cloud infrastructure is ready, develop locally using local Supabase for faster iteration.
-
-#### Step 4: Set Up Local Supabase
+Now set up local Supabase - this is where you'll develop and test your application.
 
 **Important:** Run these commands **one at a time** in your terminal.
 
@@ -112,7 +105,7 @@ Now that cloud infrastructure is ready, develop locally using local Supabase for
 supabase start
 ```
 
-After starting, Supabase will display your local credentials. Update your `.env.local` with local credentials for development:
+After starting, Supabase will display your local credentials. Update your `.env.local` with **local** credentials:
 
 ```bash
 # The 'supabase start' output will show:
@@ -123,9 +116,9 @@ After starting, Supabase will display your local credentials. Update your `.env.
 # Edit .env.local and replace with local credentials for development
 ```
 
-**Email Authentication:** Local Supabase handles email auth completely! Emails are captured by Inbucket (email testing server) instead of being sent. View captured emails at `http://localhost:54324`. Email verification links work locally and redirect to your local app.
+**Email Authentication:** Local Supabase handles email auth via Inbucket (email testing server). View captured emails at `http://localhost:54324`. Email verification links work locally and redirect to your local app.
 
-#### Step 5: Apply Database Migrations Locally
+### Step 5: Apply Database Migrations Locally
 
 ```bash
 # Apply migrations to your local Supabase instance
@@ -135,7 +128,7 @@ supabase db reset
 supabase gen types typescript --local > src/lib/database.types.ts
 ```
 
-#### Step 6: Run the Application Locally
+### Step 6: Run the Application Locally
 
 ```bash
 # Make sure Supabase is running (if not, run: supabase start)
@@ -145,27 +138,28 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000) to see your app running locally!
 
-**🎉 You're now developing locally!** Make changes, test features, and iterate quickly. Your cloud infrastructure is ready for when you want to deploy.
+**🎉 You're now developing locally!** Make changes, test features, and iterate quickly using your local Supabase instance. Your cloud infrastructure (Supabase + Vercel) is already set up and ready for when you want to deploy.
 
 ---
 
-### Phase 3: Deploy to Production
+## 🚀 Deploy to Production
 
 When your code is ready and tested locally, deploy to production:
 
-```bash
-# Push your code to GitHub
-git add .
-git commit -m "Ready for production"
-git push origin main
-```
+**a.** If you created new migrations locally, push them to cloud first:
+   ```bash
+   supabase db push
+   supabase gen types typescript --project-id <project-id> > src/lib/database.types.ts
+   ```
 
-Vercel will automatically deploy your changes! Your cloud Supabase and Vercel are already configured, so deployment happens automatically.
+**b.** Push your code to GitHub:
+   ```bash
+   git add .
+   git commit -m "Ready for production"
+   git push origin main
+   ```
 
-**Note:** Before deploying, you may want to push any new migrations to cloud Supabase:
-```bash
-supabase db push
-```
+Vercel will automatically deploy your changes! Your cloud Supabase is already configured.
 
 ## 📚 Documentation
 
@@ -215,50 +209,51 @@ supabase db push
 
 ## 📖 Development Workflow
 
-This starter uses a **"cloud-ready, local-development"** approach:
+This starter uses a **"Cloud-Ready, Local-Development"** approach:
 
 ### Phase 1: Set Up Cloud Infrastructure First
-- Set up cloud Supabase project
-- Configure Vercel deployment
-- Get everything ready for production deployment
+- Create cloud Supabase project
+- Link local project to cloud
+- Push migrations to cloud
+- Set up Vercel deployment
+- **Result:** Cloud infrastructure is ready for deployment
 
 ### Phase 2: Develop Locally
-- Use local Supabase for development (`supabase start`)
+- Use local Supabase for all development (`supabase start`)
+- Update `.env.local` with local credentials
 - Develop and test features locally
 - Fast iteration with hot reload
-- No cloud costs during development
 
 ### Phase 3: Deploy When Ready
+- Push new migrations to cloud (if any)
 - Push code to GitHub
-- Vercel automatically deploys (already configured!)
-- Cloud Supabase is ready (already set up!)
+- Vercel auto-deploys (already configured!)
 
 **Benefits:**
-- ✅ **Deployment ready** - Infrastructure set up upfront
-- ✅ **Fast local development** - No cloud latency
+- ✅ **Cloud ready** - Infrastructure set up upfront
+- ✅ **Fast local development** - No cloud latency, work offline
 - ✅ **No cloud costs** during development
-- ✅ **Confidence** - Deploy when code is ready
+- ✅ **Confidence** - Deploy when code is ready and tested
 - ✅ **Easy deployment** - Just push to GitHub
 
 ## 🔐 Environment Variables
 
-Your `.env.local` file should contain:
-
 ### For Local Development
 
-Use local Supabase credentials (from `supabase start` output):
-- `NEXT_PUBLIC_SUPABASE_URL` - Your local Supabase URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your local Supabase anon key
-- `SUPABASE_SERVICE_ROLE_KEY` - Your local Supabase service role key
+Your `.env.local` file should contain your **local Supabase credentials** (from `supabase start` output):
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-local-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-local-service-role-key
+```
 
 ### For Production (Vercel)
 
-Vercel uses cloud Supabase credentials (set in Vercel environment variables):
+Vercel uses **cloud Supabase credentials** (set in Vercel environment variables):
 - `NEXT_PUBLIC_SUPABASE_URL` - Your cloud Supabase URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your cloud Supabase anon key
 - `SUPABASE_SERVICE_ROLE_KEY` - Your cloud Supabase service role key
-
-**Note:** Switch between local and cloud credentials in `.env.local` as needed. Vercel uses its own environment variables for production.
 
 ## 🤝 Contributing
 
