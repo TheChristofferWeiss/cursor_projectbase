@@ -15,7 +15,7 @@ A production-ready starter template and comprehensive tutorial for building full
 
 ```bash
 # Clone this repository
-git clone https://github.com/yourusername/nextjs-supabase-vercel-starter.git
+git clone https://github.com/thechristofferweiss/nextjs-supabase-vercel-starter.git
 cd nextjs-supabase-vercel-starter
 
 # Install dependencies
