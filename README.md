@@ -131,7 +131,11 @@ Set up Vercel now so deployment is ready when you need it.
    
    **If push fails:** Make sure your GitHub repository exists and you have push access. If you get "repository not found", verify the repository URL in Step 1c.
 
-**d.** Import your repository in [Vercel](https://vercel.com)
+**d.** Import your repository in [Vercel](https://vercel.com):
+   - Go to [vercel.com](https://vercel.com) and sign in
+   - Click **"Add New..."** → **"Project"**
+   - Import your GitHub repository (e.g., `TheChristofferWeiss/stagetimer`)
+   - Vercel will auto-detect Next.js settings
 
 **e.** Add environment variables in Vercel project settings (use your **cloud** Supabase credentials):
    - `NEXT_PUBLIC_SUPABASE_URL` (your cloud Supabase URL)
