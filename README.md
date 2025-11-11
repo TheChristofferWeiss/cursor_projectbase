@@ -37,29 +37,38 @@ Set up your cloud Supabase project first so it's ready for deployment. We'll dev
 
 **b.** Go to **Settings → API** and copy your project URL and anon key
 
-**c.** Run these commands **one at a time** in your terminal. Do not copy-paste them all at once:
+**c.** Install Supabase CLI (if not already installed):
+   ```bash
+   # On macOS:
+   brew install supabase/tap/supabase
+   # Or see: https://supabase.com/docs/guides/cli/getting-started
+   ```
 
-```bash
-# Install Supabase CLI (if not already installed)
-# On macOS: brew install supabase/tap/supabase
-# Or see: https://supabase.com/docs/guides/cli/getting-started
+**d.** Login to Supabase (opens browser for authentication):
+   ```bash
+   supabase login
+   ```
 
-# Login to Supabase (opens browser for authentication)
-supabase login
+**e.** Initialize Supabase (creates supabase/ directory if it doesn't exist):
+   ```bash
+   supabase init
+   ```
 
-# Initialize Supabase (creates supabase/ directory if it doesn't exist)
-supabase init
+**f.** Link to your cloud project (replace `<project-id>` with your Project ID):
+   ```bash
+   # Find your Project ID in: Supabase Dashboard → Settings → General → Project ID
+   supabase link --project-ref <project-id>
+   ```
 
-# Link to your cloud project (replace <project-id> with your Project ID)
-# Find your Project ID in: Supabase Dashboard → Settings → General → Project ID
-supabase link --project-ref <project-id>
+**g.** Push migrations to your cloud Supabase project:
+   ```bash
+   supabase db push
+   ```
 
-# Push migrations to your cloud Supabase project
-supabase db push
-
-# Generate TypeScript types from cloud database
-supabase gen types typescript --project-id <project-id> > src/lib/database.types.ts
-```
+**h.** Generate TypeScript types from cloud database:
+   ```bash
+   supabase gen types typescript --project-id <project-id> > src/lib/database.types.ts
+   ```
 
 **✅ Cloud Supabase connection is now set up and ready for deployment!**
 
