@@ -86,11 +86,29 @@ Visit [http://localhost:3000](http://localhost:3000) to see your app.
    - Add your Vercel URL: `https://your-app.vercel.app/auth/callback`
    - Add localhost: `http://localhost:3000/auth/callback`
 
+### 5. Docker Support (Optional)
+
+This starter also includes Docker support for running everything locally:
+
+```bash
+# Start full stack (Next.js + Supabase) with Docker Compose
+npm run docker:up
+
+# View logs
+npm run docker:logs
+
+# Stop services
+npm run docker:down
+```
+
+See the [Docker Guide](./docs/docker.md) for complete Docker setup instructions.
+
 ## 📚 Documentation
 
 - **[Complete Setup Guide](./docs/setup-guide.md)** - Step-by-step setup instructions
 - **[User Management Guide](./docs/user-management.md)** - Authentication, roles, and user management
 - **[Deployment Guide](./docs/deployment.md)** - Vercel deployment and production considerations
+- **[Docker Guide](./docs/docker.md)** - Running with Docker and Docker Compose
 - **[Troubleshooting](./docs/troubleshooting.md)** - Common issues and solutions
 
 ## ✨ Features
@@ -102,6 +120,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see your app.
 - ✅ **Server Actions** - Next.js 14 App Router with server actions
 - ✅ **Deployment Ready** - Configured for Vercel deployment
 - ✅ **Local Development** - Hot reload with live Supabase backend
+- ✅ **Docker Support** - Optional Docker setup for full local development
 
 ## 🏗️ Project Structure
 
@@ -132,11 +151,13 @@ Visit [http://localhost:3000](http://localhost:3000) to see your app.
 
 ## 📖 Development Workflow
 
-This starter uses a **"local frontend, live backend"** approach:
+This starter uses a **"local frontend, live backend"** approach by default:
 
 - **Frontend**: Run locally with `npm run dev` for instant feedback
 - **Backend**: Connect directly to your cloud Supabase project
 - **Deploy**: Push to GitHub and Vercel auto-deploys
+
+**Alternative**: Use Docker for fully local development (see [Docker Guide](./docs/docker.md))
 
 ## 🔐 Environment Variables
 
