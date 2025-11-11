@@ -1,17 +1,25 @@
 # Next.js + Supabase + Vercel Starter Kit
 
-A production-ready starter template and comprehensive tutorial for building full-stack applications with Next.js, Supabase, and Vercel. This repository provides everything you need to quickly bootstrap a new project with authentication, database, and deployment configured.
+A production-ready starter template for building full-stack applications with Next.js, Supabase, and Vercel. 
+
+**Workflow:** Set up cloud infrastructure (Supabase + Vercel) first so deployment is ready, then develop locally. When your code is ready, deploy with confidence!
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 18+ and npm
+- [Docker](https://www.docker.com/get-started) and Docker Compose
+- [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started)
 - A Supabase account ([sign up free](https://supabase.com))
 - A Vercel account ([sign up free](https://vercel.com))
 - Git
 
-### 1. Clone and Setup
+### Phase 1: Set Up Cloud Infrastructure (Ready for Deployment)
+
+Set up your cloud Supabase and Vercel projects first so deployment is ready when you need it.
+
+#### Step 1: Clone and Setup
 
 ```bash
 # Clone this repository
@@ -25,83 +33,139 @@ npm install
 cp .env.example .env.local
 ```
 
-### 2. Supabase Setup
+#### Step 2: Set Up Cloud Supabase
 
 1. Create a new project at [supabase.com](https://supabase.com)
 2. Go to **Settings → API** and copy your project URL and anon key
-3. Update `.env.local` with your Supabase credentials:
+3. Link your local project to cloud Supabase:
 
-```env
-NEXT_PUBLIC_SUPABASE_URL=your-project-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-```
-
-4. Link your local project to Supabase:
+**Important:** Run these commands **one at a time** in your terminal. Do not copy-paste them all at once.
 
 ```bash
 # Install Supabase CLI (if not already installed)
-npm install -g supabase
+# On macOS: brew install supabase/tap/supabase
+# Or see: https://supabase.com/docs/guides/cli/getting-started
 
-# Login to Supabase
+# Login to Supabase (opens browser for authentication)
 supabase login
 
-# Initialize Supabase
+# Initialize Supabase (creates supabase/ directory if it doesn't exist)
 supabase init
 
-# Link to your project (replace <project-ref> with your project reference)
-supabase link --project-ref <project-ref>
-```
+# Link to your cloud project (replace <project-id> with your Project ID)
+# Find your Project ID in: Supabase Dashboard → Settings → General → Project ID
+supabase link --project-ref <project-id>
 
-5. Run database migrations:
-
-```bash
+# Push migrations to cloud Supabase
 supabase db push
+
+# Generate TypeScript types from cloud database
+supabase gen types typescript --project-id <project-id> > src/lib/database.types.ts
 ```
 
-6. Generate TypeScript types:
+4. Update `.env.local` with your cloud Supabase credentials:
 
-```bash
-supabase gen types typescript --project-id <project-ref> > src/lib/database.types.ts
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-cloud-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-cloud-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-cloud-service-role-key
 ```
 
-### 3. Run Locally
+#### Step 3: Set Up Vercel (Ready for Deployment)
+
+1. Push your code to GitHub:
+   ```bash
+   git add .
+   git commit -m "Initial setup"
+   git push origin main
+   ```
+
+2. Import your repository in [Vercel](https://vercel.com)
+3. Add environment variables in Vercel project settings:
+   - `NEXT_PUBLIC_SUPABASE_URL` (your cloud Supabase URL)
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (your cloud Supabase anon key)
+   - `SUPABASE_SERVICE_ROLE_KEY` (your cloud Supabase service role key)
+
+4. Configure Supabase redirect URLs:
+   - Go to Supabase Dashboard → **Authentication → URL Configuration**
+   - Set **Site URL** to your Vercel URL: `https://your-app.vercel.app`
+   - Add **Redirect URLs**:
+     - `https://your-app.vercel.app/auth/callback`
+     - `https://your-app.vercel.app/**`
+     - `http://localhost:3000/auth/callback` (for local development)
+     - `http://localhost:3000/**`
+
+**✅ Cloud infrastructure is now set up and ready for deployment!**
+
+---
+
+### Phase 2: Develop Locally
+
+Now that cloud infrastructure is ready, develop locally using local Supabase for faster iteration.
+
+#### Step 4: Set Up Local Supabase
+
+**Important:** Run these commands **one at a time** in your terminal.
 
 ```bash
+# Start local Supabase (runs PostgreSQL, Auth, Storage, etc. in Docker)
+supabase start
+```
+
+After starting, Supabase will display your local credentials. Update your `.env.local` with local credentials for development:
+
+```bash
+# The 'supabase start' output will show:
+# - API URL → use for NEXT_PUBLIC_SUPABASE_URL (local)
+# - anon key → use for NEXT_PUBLIC_SUPABASE_ANON_KEY (local)
+# - service_role key → use for SUPABASE_SERVICE_ROLE_KEY (local)
+
+# Edit .env.local and replace with local credentials for development
+```
+
+**Email Authentication:** Local Supabase handles email auth completely! Emails are captured by Inbucket (email testing server) instead of being sent. View captured emails at `http://localhost:54324`. Email verification links work locally and redirect to your local app.
+
+#### Step 5: Apply Database Migrations Locally
+
+```bash
+# Apply migrations to your local Supabase instance
+supabase db reset
+
+# Generate TypeScript types from your local database
+supabase gen types typescript --local > src/lib/database.types.ts
+```
+
+#### Step 6: Run the Application Locally
+
+```bash
+# Make sure Supabase is running (if not, run: supabase start)
+# Then start Next.js with hot reload
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see your app.
+Visit [http://localhost:3000](http://localhost:3000) to see your app running locally!
 
-### 4. Deploy to Vercel
+**🎉 You're now developing locally!** Make changes, test features, and iterate quickly. Your cloud infrastructure is ready for when you want to deploy.
 
-1. Push your code to GitHub
-2. Import your repository in [Vercel](https://vercel.com)
-3. Add environment variables in Vercel project settings:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-4. Configure Supabase redirect URLs:
-   - Go to Supabase Dashboard → Authentication → URL Configuration
-   - Add your Vercel URL: `https://your-app.vercel.app/auth/callback`
-   - Add localhost: `http://localhost:3000/auth/callback`
+---
 
-### 5. Docker Support (Optional)
+### Phase 3: Deploy to Production
 
-This starter also includes Docker support for running everything locally:
+When your code is ready and tested locally, deploy to production:
 
 ```bash
-# Start full stack (Next.js + Supabase) with Docker Compose
-npm run docker:up
-
-# View logs
-npm run docker:logs
-
-# Stop services
-npm run docker:down
+# Push your code to GitHub
+git add .
+git commit -m "Ready for production"
+git push origin main
 ```
 
-See the [Docker Guide](./docs/docker.md) for complete Docker setup instructions.
+Vercel will automatically deploy your changes! Your cloud Supabase and Vercel are already configured, so deployment happens automatically.
+
+**Note:** Before deploying, you may want to push any new migrations to cloud Supabase:
+```bash
+supabase db push
+```
 
 ## 📚 Documentation
 
@@ -118,9 +182,9 @@ See the [Docker Guide](./docs/docker.md) for complete Docker setup instructions.
 - ✅ **Database** - PostgreSQL with Row Level Security
 - ✅ **Type Safety** - Auto-generated TypeScript types from database
 - ✅ **Server Actions** - Next.js 14 App Router with server actions
-- ✅ **Deployment Ready** - Configured for Vercel deployment
-- ✅ **Local Development** - Hot reload with live Supabase backend
-- ✅ **Docker Support** - Optional Docker setup for full local development
+- ✅ **Local Development** - Full local stack with Docker and Supabase CLI
+- ✅ **Hot Reload** - Fast iteration with Next.js hot reload
+- ✅ **Production Ready** - Configured for Vercel deployment after local testing
 
 ## 🏗️ Project Structure
 
@@ -151,25 +215,50 @@ See the [Docker Guide](./docs/docker.md) for complete Docker setup instructions.
 
 ## 📖 Development Workflow
 
-This starter uses a **"local frontend, live backend"** approach by default:
+This starter uses a **"cloud-ready, local-development"** approach:
 
-- **Frontend**: Run locally with `npm run dev` for instant feedback
-- **Backend**: Connect directly to your cloud Supabase project
-- **Deploy**: Push to GitHub and Vercel auto-deploys
+### Phase 1: Set Up Cloud Infrastructure First
+- Set up cloud Supabase project
+- Configure Vercel deployment
+- Get everything ready for production deployment
 
-**Alternative**: Use Docker for fully local development (see [Docker Guide](./docs/docker.md))
+### Phase 2: Develop Locally
+- Use local Supabase for development (`supabase start`)
+- Develop and test features locally
+- Fast iteration with hot reload
+- No cloud costs during development
+
+### Phase 3: Deploy When Ready
+- Push code to GitHub
+- Vercel automatically deploys (already configured!)
+- Cloud Supabase is ready (already set up!)
+
+**Benefits:**
+- ✅ **Deployment ready** - Infrastructure set up upfront
+- ✅ **Fast local development** - No cloud latency
+- ✅ **No cloud costs** during development
+- ✅ **Confidence** - Deploy when code is ready
+- ✅ **Easy deployment** - Just push to GitHub
 
 ## 🔐 Environment Variables
 
-### Required
+Your `.env.local` file should contain:
 
-- `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your Supabase anon/public key
+### For Local Development
 
-### Optional (for admin operations)
+Use local Supabase credentials (from `supabase start` output):
+- `NEXT_PUBLIC_SUPABASE_URL` - Your local Supabase URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your local Supabase anon key
+- `SUPABASE_SERVICE_ROLE_KEY` - Your local Supabase service role key
 
-- `SUPABASE_SERVICE_ROLE_KEY` - Service role key (server-side only!)
-- `NEXT_PUBLIC_SITE_URL` - Your production URL (for email links)
+### For Production (Vercel)
+
+Vercel uses cloud Supabase credentials (set in Vercel environment variables):
+- `NEXT_PUBLIC_SUPABASE_URL` - Your cloud Supabase URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your cloud Supabase anon key
+- `SUPABASE_SERVICE_ROLE_KEY` - Your cloud Supabase service role key
+
+**Note:** Switch between local and cloud credentials in `.env.local` as needed. Vercel uses its own environment variables for production.
 
 ## 🤝 Contributing
 
@@ -185,5 +274,5 @@ Built with experience from production deployments. This starter includes solutio
 
 ---
 
-**Need help?** Check the [documentation](./docs/) or [open an issue](https://github.com/yourusername/nextjs-supabase-vercel-starter/issues).
+**Need help?** Check the [documentation](./docs/) or [open an issue](https://github.com/thechristofferweiss/nextjs-supabase-vercel-starter/issues).
 

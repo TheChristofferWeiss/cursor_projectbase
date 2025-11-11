@@ -40,6 +40,9 @@ npm install @supabase/auth-helpers-nextjs @supabase/supabase-js
 ```
 
 ### 1.4. Initialize Supabase
+
+**Important:** Run these commands **one at a time** in your terminal. Do not copy-paste them all at once.
+
 1.  **Install/Verify CLI:** `supabase --version` (If not installed, use `brew install supabase/tap/supabase` on macOS or see official docs).
 2.  **Log In:** `supabase login` (authorizes via browser).
 3.  **Initialize:** `supabase init` (creates the `supabase/` directory).
@@ -58,10 +61,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
 ```
 
 ### 3.2. Link to Remote Project
-Link your local setup to your remote Supabase project. Find your `<project-ref>` in your Supabase project's URL.
+Link your local setup to your remote Supabase project. 
+
+**Find your Project ID:** Go to Supabase Dashboard → Settings → General → Project ID (it's a 20-character string).
+
+**Important:** Run this command separately after completing the previous steps.
 
 ```bash
-supabase link --project-ref <your-project-ref>
+supabase link --project-ref <your-project-id>
 # You will be prompted for your database password.
 ```
 
