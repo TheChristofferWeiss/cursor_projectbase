@@ -134,7 +134,7 @@ Set up Vercel now so deployment is ready when you need it.
 **d.** Import your repository in [Vercel](https://vercel.com):
    - Go to [vercel.com](https://vercel.com) and sign in
    - Click **"Add New..."** → **"Project"**
-   - Import your GitHub repository (e.g., `TheChristofferWeiss/stagetimer`)
+   - Import your GitHub repository (e.g., `yourusername/yourprojectname`)
    - Vercel will auto-detect Next.js settings
 
 **e.** Add environment variables in Vercel project settings:
