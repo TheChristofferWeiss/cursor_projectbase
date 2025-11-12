@@ -10,6 +10,11 @@ A production-ready starter template for building full-stack applications with Ne
 
 - Node.js 18+ and npm
 - [Docker](https://www.docker.com/get-started) and Docker Compose
+  - **Installation:** Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) for your operating system
+  - **macOS:** `brew install --cask docker` or download from docker.com
+  - **Windows:** Download Docker Desktop from docker.com
+  - **Linux:** Follow [Docker installation guide](https://docs.docker.com/engine/install/)
+  - **Verify:** Run `docker --version` and `docker-compose --version` to confirm installation
 - [Supabase CLI](https://supabase.com/docs/guides/cli/getting-started)
 - A Supabase account ([sign up free](https://supabase.com))
 - A Vercel account ([sign up free](https://vercel.com)) - for deployment
@@ -38,7 +43,7 @@ A production-ready starter template for building full-stack applications with Ne
 **c.** Set up your own Git repository (the cloned repo is connected to the starter template's repository):
    
    **Important:** Create a new GitHub repository for your project first, then:
-   ```bash
+```bash
    # Remove the existing remote (connected to starter template)
    git remote remove origin
    
@@ -51,13 +56,13 @@ A production-ready starter template for building full-stack applications with Ne
 
 **d.** Install dependencies:
    ```bash
-   npm install
+npm install
    ```
 
 **e.** Copy environment template:
    ```bash
-   cp .env.example .env.local
-   ```
+cp .env.example .env.local
+```
 
 ### Step 2: Set Up Cloud Supabase Connection (Before Development)
 
@@ -240,7 +245,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see your app running loc
 When your code is ready and tested locally, deploy to production:
 
 **a.** If you created new migrations locally, push them to cloud first:
-   ```bash
+```bash
    supabase db push
    supabase gen types typescript --project-id <project-id> > src/lib/database.types.ts
    ```
