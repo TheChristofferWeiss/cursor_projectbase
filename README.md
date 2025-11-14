@@ -186,53 +186,53 @@ Set up Vercel now so deployment is ready when you need it.
 
 Now set up local Supabase - this is where you'll develop and test your application.
 
-**Important:** Run these commands **one at a time** in your terminal.
+**Important:** Run these commands **one at a time** (copy only the lines that start with actual commands, never the explanatory text).
 
-```bash
-# Start local Supabase (runs PostgreSQL, Auth, Storage, etc. in Docker)
-supabase start
-```
-
-**If you get a port conflict error:**
+1. Start the local stack (PostgreSQL, Auth, Storage, etc.):
    ```bash
-   # Check for running Supabase instances
-   docker ps --filter "name=supabase"
-   
-   # Stop conflicting project (replace <project-id> with the conflicting project ID)
-   supabase stop --project-id <project-id>
-   
-   # Then try starting again
    supabase start
    ```
 
-After starting, Supabase will display your local credentials. Update your `.env.local` with **local** credentials:
+2. If you see a port conflict, diagnose and restart:
+   - List running Supabase containers:
+     ```bash
+     docker ps --filter "name=supabase"
+     ```
+   - Stop the conflicting project (replace `<project-id>` with the one shown in the previous command):
+     ```bash
+     supabase stop --project-id <project-id>
+     ```
+   - Start again:
+     ```bash
+     supabase start
+     ```
 
-```bash
-# The 'supabase start' output will show:
-# - API URL → use for NEXT_PUBLIC_SUPABASE_URL (local)
-# - Publishable key → use for NEXT_PUBLIC_SUPABASE_ANON_KEY (local)
-# - Secret key → use for SUPABASE_SERVICE_ROLE_KEY (local)
+After `supabase start` finishes, it prints the local credentials you need for development. Update `.env.local` with:
 
-# Edit .env.local and replace with local credentials for development
-```
+- `NEXT_PUBLIC_SUPABASE_URL` → the printed **API URL**
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` → the printed **Publishable key**
+- `SUPABASE_SERVICE_ROLE_KEY` → the printed **Secret key**
+
+Edit `.env.local` and replace the placeholder values with these local credentials.
 
 **Email Authentication:** Local Supabase handles email auth via Inbucket (email testing server). View captured emails at `http://localhost:54324`. Email verification links work locally and redirect to your local app.
 
 ### Step 5: Apply Database Migrations Locally
 
-```bash
-# Apply migrations to your local Supabase instance
-supabase db reset
+1. Apply migrations to your local Supabase instance:
+   ```bash
+   supabase db reset
+   ```
 
-# Generate TypeScript types from your local database
-supabase gen types typescript --local > src/lib/database.types.ts
-```
+2. Generate TypeScript types from the local database:
+   ```bash
+   supabase gen types typescript --local > src/lib/database.types.ts
+   ```
 
 ### Step 6: Run the Application Locally
 
+Start the Next.js dev server (ensure Supabase is still running in another terminal):
 ```bash
-# Make sure Supabase is running (if not, run: supabase start)
-# Then start Next.js with hot reload
 npm run dev
 ```
 
