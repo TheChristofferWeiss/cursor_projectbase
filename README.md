@@ -42,15 +42,17 @@ A production-ready starter template for building full-stack applications with Ne
 
 **c.** Set up your own Git repository (the cloned repo is connected to the starter template's repository):
    
-   **Important:** Create a new GitHub repository for your project first, then:
-```bash
-   # Remove the existing remote (connected to starter template)
+   **Important:** Create a new GitHub repository for your project first, then run the commands below **one at a time**. Copy only the command lines (`git ...`) into your terminal:
+   
+   ```bash
    git remote remove origin
+   ```
    
-   # Add your new repository as remote (replace with your repository URL)
+   ```bash
    git remote add origin https://github.com/yourusername/your-project-name.git
+   ```
    
-   # Verify the remote is set correctly
+   ```bash
    git remote -v
    ```
 
@@ -84,7 +86,7 @@ Set up your cloud Supabase project first so it's ready for deployment. We'll dev
    supabase login
    ```
 
-**e.** Initialize Supabase (creates supabase/ directory if it doesn't exist):
+**e.** Initialize Supabase (creates `supabase/` directory). **Skip this if the folder already contains `supabase/config.toml` (i.e., you cloned this starter):**
    ```bash
    supabase init
    ```
