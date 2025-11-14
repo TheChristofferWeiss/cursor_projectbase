@@ -210,8 +210,8 @@ After starting, Supabase will display your local credentials. Update your `.env.
 ```bash
 # The 'supabase start' output will show:
 # - API URL → use for NEXT_PUBLIC_SUPABASE_URL (local)
-# - anon key → use for NEXT_PUBLIC_SUPABASE_ANON_KEY (local)
-# - service_role key → use for SUPABASE_SERVICE_ROLE_KEY (local)
+# - Publishable key → use for NEXT_PUBLIC_SUPABASE_ANON_KEY (local)
+# - Secret key → use for SUPABASE_SERVICE_ROLE_KEY (local)
 
 # Edit .env.local and replace with local credentials for development
 ```
