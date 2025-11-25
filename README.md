@@ -252,7 +252,13 @@ When your code is ready and tested locally, deploy to production:
    supabase gen types typescript --project-id <project-id> > src/lib/database.types.ts
    ```
 
-**b.** Push your code to GitHub:
+**b.** Before pushing, ensure TypeScript builds successfully:
+   ```bash
+   npm run build
+   ```
+   This catches type errors before deployment. If you see errors like "Property 'full_name' does not exist on type 'never'", ensure you've generated types and are using explicit column selects in Supabase queries.
+
+**c.** Push your code to GitHub:
    ```bash
    git add .
    git commit -m "Ready for production"

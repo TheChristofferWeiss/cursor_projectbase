@@ -71,6 +71,32 @@ supabase db push
 supabase gen types typescript --project-id <project-ref> > src/lib/database.types.ts
 ```
 
+### Issue: "Property 'full_name' does not exist on type 'never'" during build
+
+**Cause:** TypeScript can't infer types when using `.select('*')` in Supabase queries
+
+**Solution:** Use explicit column selects and import database types:
+
+```typescript
+import { Database } from '@/lib/database.types'
+
+type Profile = Database['public']['Tables']['profiles']['Row']
+
+// ❌ Wrong - TypeScript can't infer type
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('*')
+  .eq('id', user.id)
+  .single()
+
+// ✅ Correct - Explicit columns allow type inference
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('full_name, role')
+  .eq('id', user.id)
+  .single()
+```
+
 ## Build & Deployment Issues
 
 ### Issue: Build fails on Vercel
