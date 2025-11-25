@@ -22,7 +22,7 @@ A production-ready starter template for building full-stack applications with Ne
 
 ### Step 1: Clone and Setup
 
-**a.** Create your project directory and navigate to it:
+**a.** In Terminal, create your project directory and navigate to it:
    ```bash
    # Create your project directory (replace 'your-project-name' with your actual project name)
    mkdir your-project-name
@@ -31,7 +31,7 @@ A production-ready starter template for building full-stack applications with Ne
    cd your-project-name
    ```
    
-   **In Cursor:** You can also create the folder using File → New Folder, then open it in Cursor.
+   **In Cursor (or your favorite IED):** Open folder
 
 **b.** Clone this repository directly into your project folder:
    ```bash
