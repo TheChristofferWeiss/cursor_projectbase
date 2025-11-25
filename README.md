@@ -366,8 +366,8 @@ MIT License - feel free to use this for your projects!
 ## 🙏 Acknowledgments
 
 Built with experience from production deployments. This starter includes solutions to common issues encountered when building with Next.js, Supabase, and Vercel.
-
 ---
 
 **Need help?** Check the [documentation](./docs/) or [open an issue](https://github.com/thechristofferweiss/nextjs-supabase-vercel-starter/issues).
+You can also contact me directly at indigovira@gmail.com
 
